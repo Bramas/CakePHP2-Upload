@@ -42,7 +42,7 @@ class UploadController extends AppController {
 		if (!$this->PluploadHandler->handle(array(
 			'target_dir' => TMP,
 			'file_name' => $tmpName,
-			'allow_extensions' => array('jpg','jpeg','png','dmg','exe')
+			'allow_extensions' => array('jpg','jpeg','png','dmg','bmp','zip','pdf','gif','exe')
 		))) {
 			die(json_encode(array(
 				'OK' => 0, 
