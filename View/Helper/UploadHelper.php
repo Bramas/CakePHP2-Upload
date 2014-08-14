@@ -73,7 +73,7 @@ var uploader<?php echo $this->uploaderId ?> = new plupload.Uploader({
         ]
     },
     
-    multi_selection : false,
+    multi_selection : <?php echo empty($option['multiple'])?'false':'true'; ?>,
     
     // Flash settings
     flash_swf_url : 'http://rawgithub.com/moxiecode/moxie/master/bin/flash/Moxie.cdn.swf',
@@ -119,7 +119,12 @@ var uploader<?php echo $this->uploaderId ?> = new plupload.Uploader({
 
             $('#upload-input-<?php echo $name; ?>-name').val(data.name);
             $('#upload-input-<?php echo $name; ?>-tmp_name').val(data.tmp_name);
-
+            <?php
+            if(!empty($option['onFileUploaded']))
+            {
+                echo $option['onFileUploaded'];
+            }
+            ?>
             //$('#upload-container-<?php echo $name ?> img').attr('src', '<?php echo $this->Html->link('/'); ?>'+data.tmp_name).show('fast');
         },
  
