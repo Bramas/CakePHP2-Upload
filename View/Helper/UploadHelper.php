@@ -14,6 +14,9 @@ class UploadHelper extends AppHelper {
     public function setModel($model){
         $this->_model = $model;
     }
+    public function setFormHelper($helper){
+        $this->Form = $helper;
+    }
 
 
     public function input($name, $option) {
