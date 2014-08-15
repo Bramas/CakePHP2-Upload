@@ -30,13 +30,17 @@ class UploadHelper extends AppHelper {
 <br />
  
 <div id="upload-container-<?php echo $name ?>">
+    <div class="uploader-images-progressbar">
+        <div class="uploader-images-progressbar-overlay">
+        </div>
+    </div>
     <div class="uploader-images"><?php if($this->_model 
     && !empty($this->request->data[$this->_model]) 
     && !empty($this->request->data[$this->_model][$name]))
     {
-        echo $this->Html->image($this->request->data[$this->_model][$name], array('height' => "200"));
+        echo $this->Html->image($this->request->data[$this->_model][$name], array('width' => "150"));
     }
-    echo $this->Html->image(' ', array('class' => 'upload-default-image', 'style' => 'display:none', 'height' => "200"));
+    echo $this->Html->image(' ', array('class' => 'upload-default-image', 'style' => 'display:none', 'width' => "150"));
     ?>
     </div>
     <a id="upload-pick-<?php echo $name ?>" href="javascript:;"><?php echo '['.__('Selectionner un fichier').']'; ?></a>
@@ -45,7 +49,22 @@ class UploadHelper extends AppHelper {
  
 <br />
 <pre id="console"></pre>
- 
+<style type="text/css">
+
+.uploader-images-progressbar {
+    position: relative;
+    width: 150px;
+}
+.uploader-images-progressbar-overlay {
+    position: absolute;
+    top: 0;
+    left: 89%;
+    width: 27%;
+    opacity: 0.5;
+    background-color: black;
+    height: 100%;
+}
+</style>
  
 <script type="text/javascript">
 // Custom example logic
@@ -105,18 +124,29 @@ var uploader<?php echo $this->uploaderId ?> = new plupload.Uploader({
             $('#upload-container-<?php echo $name ?> img').fadeOut(1000);
 
             var src = createObjectURL(files[0].getNative());
-            //var image = new Image();
-            //image.src = src;
-            //$('body').append(image);
+
             $('#upload-container-<?php echo $name ?> img.upload-default-image').fadeOut(0)
             .first().clone().removeClass('upload-default-image')
-            .prependTo('#upload-container-<?php echo $name ?>').attr('src', src).fadeIn(1000);
+            .appendTo('#upload-container-<?php echo $name ?> .uploader-images-progressbar').attr('src', src).fadeIn(1000);
+            
+            //$('#upload-container-<?php echo $name ?> img.upload-default-image').fadeOut(0)
+            //.first().clone().removeClass('upload-default-image')
+            //.prependTo('#upload-container-<?php echo $name ?>').attr('src', src).fadeIn(1000);
         },
  
         UploadProgress: function(up, file) {
-            document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+            var p = file.percent < 100 ? file.percent : 99;
+            $('#upload-container-<?php echo $name ?> .uploader-images-progressbar-overlay')
+            .css('left', p+'%')
+            .css('width', (100-p)+'%');
+            document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + p + "%</span>";
         },
         FileUploaded: function(up, file, info) {
+            $('#upload-container-<?php echo $name ?> .uploader-images-progressbar-overlay')
+            .css('left', '100%')
+            .css('width', '0');
+            document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>100%</span>';
+            
             // Called when a file has finished uploading
             var data = eval('(' + info.response + ')');
 
