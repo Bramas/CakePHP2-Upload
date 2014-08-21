@@ -91,7 +91,9 @@ var uploader<?php echo $this->uploaderId ?> = new plupload.Uploader({
         mime_types: [
             {title : "Image files", extensions : "jpg,gif,png"},
             {title : "Zip files", extensions : "zip"},
-            {title : "Executables", extensions : "exe,dmg"}
+            {title : "Executables", extensions : "exe,dmg"},
+            {title : "Documents", extensions : "pdf,doc,docx,ods"},
+            {title : "Autre", extensions : "*"}
         ]
     },
     
