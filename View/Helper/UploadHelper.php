@@ -174,8 +174,10 @@ uploader<?php echo $this->uploaderId ?>.init();
 </script>
 
 <?php
-		echo $this->Form->input('Upload.'.$name.'.name', array('type' => 'hidden', 'id' => 'upload-input-'.$name.'-name'));
-		echo $this->Form->input('Upload.'.$name.'.tmp_name', array('type' => 'hidden', 'id' => 'upload-input-'.$name.'-tmp_name'));
+        $this->Form->unlockField('Upload.'.$name.'.name');
+        $this->Form->unlockField('Upload.'.$name.'.tmp_name');
+		echo $this->Form->input('Upload.'.$name.'.name', array('secure'=>false,'type' => 'hidden', 'id' => 'upload-input-'.$name.'-name'));
+		echo $this->Form->input('Upload.'.$name.'.tmp_name', array('secure'=>false,'type' => 'hidden', 'id' => 'upload-input-'.$name.'-tmp_name'));
 		
 		$this->uploaderId += 1;
 
