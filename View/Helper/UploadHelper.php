@@ -125,7 +125,16 @@ var uploader<?php echo $this->uploaderId ?> = new plupload.Uploader({
             uploader<?php echo $this->uploaderId ?>.start();
             $('#upload-container-<?php echo $name ?> img').fadeOut(1000);
 
-            var src = createObjectURL(files[0].getNative());
+            console.log(files[0]);
+            var src = '<?php echo $this->Html->url('/upload/img/default.png', true); ?>';
+
+            var fileExploded = files[0].name.toLowerCase().split('.');
+            var imgExt = ['jpg','jpeg','gif','bmp','png'];
+            if(fileExploded.length && imgExt.indexOf(fileExploded.slice(-1)[0].toLowerCase()) != -1)
+            {
+                src = createObjectURL(files[0].getNative());
+            }
+
 
             $('#upload-container-<?php echo $name ?> img.upload-default-image').fadeOut(0)
             .first().clone().removeClass('upload-default-image')
